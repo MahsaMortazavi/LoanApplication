@@ -1,0 +1,13 @@
+# Core dependencies
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic
+pydantic[email]
+cryptography
+python-dotenv
+
+# Testing dependencies
+pytest
+pytest-cov
+httpx

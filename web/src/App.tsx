@@ -95,54 +95,58 @@ export default function App() {
     <div className="container">
       <h1>Loan Application</h1>
 
-      <form className="card" onSubmit={submit}>
-        <Section title="Borrower">
-          <Row>
-            <Field name="first_name" label="First name" value={borrower.first_name} onChange={onBorrowerChange} onBlur={onBlur} error={touched.first_name && errors.first_name} />
-            <Field name="last_name"  label="Last name"  value={borrower.last_name}  onChange={onBorrowerChange} onBlur={onBlur} error={touched.last_name  && errors.last_name} />
-          </Row>
-          <Row>
-            <Field name="email" label="Email" type="email" value={borrower.email} onChange={onBorrowerChange} onBlur={onBlur} error={touched.email && errors.email} />
-            <Field name="phone" label="Phone" placeholder="(555) 123-4567" value={borrower.phone} onChange={onBorrowerChange} onBlur={onBlur} error={touched.phone && errors.phone} />
-          </Row>
-          <Row>
-            <Field name="ssn" label="SSN" type="password" placeholder="123-45-6789" value={borrower.ssn} onChange={onBorrowerChange} onBlur={onBlur} error={touched.ssn && errors.ssn} autoComplete="off" />
-            <Field name="address_street" label="Street" value={borrower.address_street} onChange={onBorrowerChange} onBlur={onBlur} error={touched.address_street && errors.address_street} />
-          </Row>
-          <Row>
-            <Field name="city" label="City" value={borrower.city} onChange={onBorrowerChange} onBlur={onBlur} error={touched.city && errors.city} />
-            <Field name="state" label="State" placeholder="NY" value={borrower.state} onChange={onBorrowerChange} onBlur={onBlur} error={touched.state && errors.state} />
-            <Field name="zip_code" label="ZIP" value={borrower.zip_code} onChange={onBorrowerChange} onBlur={onBlur} error={touched.zip_code && errors.zip_code} />
-          </Row>
-        </Section>
+      <div className="app-layout">
+        <form className="card" onSubmit={submit}>
+          <Section title="Enter Your Information Please">
+            <Row>
+              <Field name="first_name" label="First name" value={borrower.first_name} onChange={onBorrowerChange} onBlur={onBlur} error={touched.first_name && errors.first_name} />
+              <Field name="last_name"  label="Last name"  value={borrower.last_name}  onChange={onBorrowerChange} onBlur={onBlur} error={touched.last_name  && errors.last_name} />
+            </Row>
+            <Row>
+              <Field name="email" label="Email" type="email" value={borrower.email} onChange={onBorrowerChange} onBlur={onBlur} error={touched.email && errors.email} />
+              <Field name="phone" label="Phone" placeholder="(555) 123-4567" value={borrower.phone} onChange={onBorrowerChange} onBlur={onBlur} error={touched.phone && errors.phone} />
+            </Row>
+            <Row>
+              <Field name="ssn" label="SSN" type="password" placeholder="123-45-6789" value={borrower.ssn} onChange={onBorrowerChange} onBlur={onBlur} error={touched.ssn && errors.ssn} autoComplete="off" />
+              <Field name="address_street" label="Street" value={borrower.address_street} onChange={onBorrowerChange} onBlur={onBlur} error={touched.address_street && errors.address_street} />
+            </Row>
+            <Row>
+              <Field name="city" label="City" value={borrower.city} onChange={onBorrowerChange} onBlur={onBlur} error={touched.city && errors.city} />
+              <Field name="state" label="State" placeholder="NY" value={borrower.state} onChange={onBorrowerChange} onBlur={onBlur} error={touched.state && errors.state} />
+              <Field name="zip_code" label="ZIP" value={borrower.zip_code} onChange={onBorrowerChange} onBlur={onBlur} error={touched.zip_code && errors.zip_code} />
+            </Row>
+          </Section>
 
-        <Section title="Loan Request">
-          <Row>
-            <Field name="requested_amount" label="Requested Amount" value={toMoneyString(amount)} onChange={onAmountChange} onBlur={onBlur} error={touched.requested_amount && errors.requested_amount} inputMode="decimal" />
-          </Row>
-        </Section>
+          <Section>
+            <Row>
+              <Field name="requested_amount" label="Requested Amount" value={toMoneyString(amount)} onChange={onAmountChange} onBlur={onBlur} error={touched.requested_amount && errors.requested_amount} inputMode="decimal" />
+            </Row>
+          </Section>
 
-        {error && <Alert type="error">{error}</Alert>}
-
-        <div className="actions">
-          <button type="submit" disabled={loading}>{loading ? "Submitting..." : "Submit Application"}</button>
-          <button type="button" className="secondary" onClick={reset}>Reset</button>
-        </div>
-      </form>
-
-      {result && (
-        <div className="card result-card">
-          <div className="result-header">
-            <DecisionBadge decision={result.decision} />
+          <div className="alert-container">
+            {error && <Alert type="error">{error}</Alert>}
           </div>
 
-          {result.offer ? (
-            <OfferCard total={result.offer.total_amount} rate={result.offer.interest_rate} term={result.offer.term_months} monthly={result.offer.monthly_payment} />
-          ) : (
-            <DeniedCard reason={result.reason ?? "Denied"} />
-          )}
-        </div>
-      )}
+          <div className="actions">
+            <button type="submit" disabled={loading}>{loading ? "Submitting..." : "Submit Application"}</button>
+            <button type="button" className="secondary" onClick={reset}>Reset</button>
+          </div>
+        </form>
+
+        {result && (
+          <div className="card result-card">
+            <div className="result-header">
+              <DecisionBadge decision={result.decision} />
+            </div>
+
+            {result.offer ? (
+              <OfferCard total={result.offer.total_amount} rate={result.offer.interest_rate} term={result.offer.term_months} monthly={result.offer.monthly_payment} />
+            ) : (
+              <DeniedCard reason={result.reason ?? "Denied"} />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -187,7 +191,7 @@ function Field({ label, error, ...rest }: FieldProps) {
     <label className={`field ${error ? "has-error" : ""}`}>
       <span>{label}</span>
       <input {...rest} />
-      {error ? <em>{error}</em> : null}
+      <em>{error || '\u00A0'}</em>
     </label>
   );
 }
@@ -215,7 +219,6 @@ function OfferCard({ total, rate, term, monthly }: { total: string; rate: number
 function DeniedCard({ reason }: { reason: string }) {
   return (
     <div className="offer-card denied-card">
-      <strong>Application denied</strong>
       <p>{reason}</p>
     </div>
   );

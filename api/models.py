@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List
 import enum
 from sqlalchemy import String, Integer, Float, Text, DateTime, CheckConstraint, ForeignKey, Numeric, Enum
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship

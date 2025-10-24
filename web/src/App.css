@@ -18,6 +18,13 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.field em {
+  display: block;
+  min-height: 1.2em;
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

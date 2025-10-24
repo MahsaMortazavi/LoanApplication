@@ -13,11 +13,11 @@ from pydantic import BaseModel, EmailStr
 load_dotenv()
 
 # DB SETUP
-DATABASE_URL = "sqlite:///./app.db"   # creates app.db in /api working dir
+DATABASE_URL = "sqlite:///./app.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False)
 
-# create tables
+# CREATE TABLES
 Base.metadata.create_all(bind=engine)
 
 def get_db():
